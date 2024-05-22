@@ -4,10 +4,12 @@
 ### Installation
 1 . At first broadcast up et disable ipv6
 
-For Debind l'ipv6 3 solutions : 
+   For Debind l'ipv6 3 solutions : 
       1. command NMTUI then modifiy la connection , disable ipv6 et active connect automatic and then activate the connection
-      2. Modify the file /etc/sysctl.conf et ajouter les lignes suivantes : net.ipv6.conf.all.disable_ipv6 = 1 net.ipv6.conf.default.disable_ipv6 = 1  Puis sauvegarder et relancer avec la commande sysctl -p
-      3. Sinon modifier le fichier /etc/default/grub Y ajouter la ligne GRUB_CMDLINE_LINUX="$GRUB_CMDLINE_LINUX ipv6.disable=1" Sauvegardez et quittez puis relancez un nouveau fichier grub avec la commande grub2-mkconfig -o /boot/grub2/grub.cfg
+      2. Modify the file /etc/sysctl.conf et ajouter les lignes suivantes : net.ipv6.conf.all.disable_ipv6 = 1 net.ipv6.conf.default.disable_ipv6 = 1  Puis sauvegarder et   
+   relancer avec la commande sysctl -p
+      3. Sinon modifier le fichier /etc/default/grub Y ajouter la ligne GRUB_CMDLINE_LINUX="$GRUB_CMDLINE_LINUX ipv6.disable=1" Sauvegardez et quittez puis relancez un nouveau 
+   fichier grub avec la commande grub2-mkconfig -o /boot/grub2/grub.cfg
         Check dhcp ip addresse : ip a
 2. Changer nom pardefaut de pc  by ligne de commande hostnamectl set-hostname XXX
 3. Add user and his password then user mod group: add user
@@ -42,8 +44,8 @@ For Debind l'ipv6 3 solutions :
       Exemple ecrire un fichier yaml pour creer un directory:
 
 ##Some important definistion:
-SUDO: Cela signifie que l'utilisateur user peut exécuter n'importe quelle commande en tant que n'importe quel utilisateur ou groupe, sur n'importe quelle machine (utile pour les systèmes multi-utilisateurs ou en réseau).
-SU: The su command in Unix and Linux systems stands for "substitute user" or "switch user." It allows a user to start a shell session as another user, typically the superuser (root).
-Yaml est un langauge de description comme xml, json etc
-Handlesr: Les handlers sont un mécanisme puissant dans Ansible pour gérer les actions de suivi après des changements d'état du système
-/etc/hosts (contiens des informations de nom de domaine corresponding ip address)
+- SUDO: Cela signifie que l'utilisateur user peut exécuter n'importe quelle commande en tant que n'importe quel utilisateur ou groupe, sur n'importe quelle machine (utile pour les systèmes multi-utilisateurs ou en réseau).
+- SU: The su command in Unix and Linux systems stands for "substitute user" or "switch user." It allows a user to start a shell session as another user, typically the superuser (root).
+- Yaml est un langauge de description comme xml, json etc
+- Handlesr: Les handlers sont un mécanisme puissant dans Ansible pour gérer les actions de suivi après des changements d'état du système
+- /etc/hosts (contiens des informations de nom de domaine corresponding ip address)

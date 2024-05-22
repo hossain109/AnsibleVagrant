@@ -50,7 +50,7 @@
             Execute playbook: ansible-playbook nom_playbook -vK (v for message error, K for become:Utiliser become: true permet d'élever temporairement les privilèges de l'utilisateur courant pour ces tâches spécifiques.)
             
             Exemple ecrire un fichier yaml pour creer un directory:
-           ![alt text](ans.jpg "Playbook")
+           ![title](Images/ans.jpg)
 
 ##Some important definistion:
 - SUDO: Cela signifie que l'utilisateur user peut exécuter n'importe quelle commande en tant que n'importe quel utilisateur ou groupe, sur n'importe quelle machine (utile pour les systèmes multi-utilisateurs ou en réseau).

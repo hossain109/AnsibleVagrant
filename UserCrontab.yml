@@ -1,0 +1,17 @@
+---
+- name: exercise 3Set up a scheduled task (for example the date >> /tmp/date commandso that you can easily check that it has worked correctly) to be carried outby the cron daemon the next minute under the identity of this user.
+  become: true
+  tasks:
+    - name: create user hossain
+      ansible.builtin.user:
+        name: hossain
+        uid: 1164
+        group: users
+        comment: 'hossain mohammad'
+    - name: cron date
+      ansible.builtin.cron:
+        name: cron
+        cron_file: date
+        mminute: "{{ ( ansible_date_time.minute | int + 1 ) % 60 }}"
+        user: hossain
+        job: date >> /tmp/date

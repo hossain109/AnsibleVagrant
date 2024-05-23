@@ -1,0 +1,18 @@
+---
+- name: Configurer le service de journalisation rsyslog pour placer les messages de la catégorie local4 dans le fichier /var/log/test. Pour cela, ajouter la ligne suivante dans le fichier /etc/rsyslog.conf ou créer un fichier la contenant et ayant l'extension .conf dans le répertoire /etc/rsyslog.d
+  hosts: alma
+  become: true
+  tasks:
+    - name: configuration rsyslog
+      ansible.builtin.copy:
+        src: local4.conf
+        dest: /etc/rsyslog.d/local4.conf
+        owner: root
+        mode: root
+      notify:
+        - rsyslog_restart
+  handlers:
+    - name: rsyslog_restart
+      ansible.builtin.service:
+        name: rsyslog
+        state: restarted

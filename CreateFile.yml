@@ -1,0 +1,26 @@
+---
+- name: exercise 1
+  hosts: alma
+  remote_user: root
+  tasks:
+    - name: Create a set of directories /home1 … /home9.
+        ansible.builtin.file:
+        path: /home{{item}}
+        state: directory
+        owner: root
+        group: root
+        mode: 0755
+        loop: "{{ range( 1, 9+1 ) | list }}"
+    - name: create a directory /auto
+      ansible.builtin.file:
+        path: /auto
+        owner: root
+        group: root
+        mode: 0555
+    - name: creation of /auto/home1-----/auto/home9
+      ansible.builtin.file:
+        src: /auto/home{{ item }}
+        state: link
+        owner: root
+        group: root
+      loop: "{{ range(1,9+1) | list }}"

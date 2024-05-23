@@ -1,0 +1,9 @@
+---
+- name: exercise 2
+  hosts: alma
+  remote_user: root
+  tasks:
+    - name: Create an archive in .tar.gz format from the /etc directory.
+      community.general.archive:
+        path: /etc
+        dest: /tmp/etc.tar.gz

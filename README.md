@@ -58,3 +58,23 @@
 - Yaml is a description language like xml, json etc.
 - Handlesr: Handlers are a powerful mechanism in Ansible for handling follow-up actions after system state changes
 - /etc/hosts (contains domain name information corresponding ip address)
+
+
+## Roles in Ansible
+- Ansible Roles provide a well-defined framework and structure for setting your tasks, variables, handlers, metadata, templates, and other files. They enable us to reuse and share our Ansible code efficiently.
+## Why Roles Are Useful in Ansible
+- Roles in Ansible provide a powerful way to organize, reuse, and manage your automation code. They enhance modularity, scalability, consistency, and collaboration, making it easier to handle complex configurations and infrastructure. By using roles, you can improve the maintainability, readability, and efficiency of your Ansible projects.
+
+### Ansible Role Structure
+       
+       -> ansible-roles git:(master) ansible-galaxy init test_role
+       - Role test_role was created successfully
+    ![role-ansible](/Images/ans-role.jpg)
+  - defaults –  Includes default values for variables of the role. Here we define some sane default variables, but they have the lowest priority and are usually overridden by other methods to customize the role.
+  - files  – Contains static and custom files that the role uses to perform various tasks.
+  - handlers – A set of handlers that are triggered by tasks of the role. 
+  - meta – Includes metadata information for the role, its dependencies, the author, license, available platform, etc.
+  - tasks – A list of tasks to be executed by the role. This part could be considered similar to the task section of a playbook.
+  - templates – Contains Jinja2 template files used by tasks of the role. (Read more about how to create an Ansible template.)
+  - tests – Includes configuration files related to role testing.
+  - vars – Contains variables defined for the role. These have quite a high precedence in Ansible.

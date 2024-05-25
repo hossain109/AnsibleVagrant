@@ -69,7 +69,7 @@
        
        -> ansible-roles git:(master) ansible-galaxy init test_role
        - Role test_role was created successfully
-    ![role-ansible](/Images/ans-role.jpg)
+  ![role-ansible](/Images/ans-role.jpg)  
   - defaults –  Includes default values for variables of the role. Here we define some sane default variables, but they have the lowest priority and are usually overridden by other methods to customize the role.
   - files  – Contains static and custom files that the role uses to perform various tasks.
   - handlers – A set of handlers that are triggered by tasks of the role. 

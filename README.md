@@ -50,7 +50,7 @@
             Execute playbook: ansible-playbook nom_playbook -vK (v for message error, K for become:Utiliser become: true allows you to temporarily elevate the privileges of the current user for these specific tasks.)
             
             Example of writing a yaml file to create a directory:
-           ![title](/Images/ans.jpg)
+![playbook-ansible](/Images/ans.jpg)
 
 ##Some important definistion:
 - SUDO:This means that user can run any command as any user or group, on any machine (useful for multi-user or networked systems).

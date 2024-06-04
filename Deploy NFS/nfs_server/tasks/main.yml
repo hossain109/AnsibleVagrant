@@ -1,0 +1,30 @@
+---
+# tasks file for nfs_server
+- name: Ajout des variables 
+  ansible.builtin.include_vars: "{{ ansible_os_family }}.yml" 
+
+- name: Installer le paquet nfs-server
+  ansible.builtin.package:
+    name: "{{ nfs_paquet }}"
+    state: present
+  notify:
+    - start-service-nfs
+- name: Creation dossier partage
+  ansible.builtin.file:
+    path: /srv/nfs
+    state: directory
+    owner: root
+    group: root
+    mode: '0775'
+
+- name: Modification du fichier /etc/exports
+  ansible.builtin.lineinfile:
+    path: /etc/exports
+    line: '/srv/nfs     192.168.10.0/24 (rw)'
+    regexp: '^/srv/nfs'
+  notify:
+    - restart-service-nfs
+- name: Coupure du firewall
+  ansible.builtin.service:
+    name: firewalld
+    state: stopped

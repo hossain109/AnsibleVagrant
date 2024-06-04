@@ -1,0 +1,13 @@
+---
+# tasks file for nfs_client
+- name: Installation des paquets
+  ansible.builtin.package:
+    name: "{{ 'nfs-utils' if os_family == 'RedHat' else 'nfs-common' }}"
+    state: present
+- name: Modification fstab et mount du nfs
+  ansible.posix.mount:
+    src: "{{ nfs_serveur }}:{{ nfs_chemin }}"
+    path: /mnt
+    fstype: nfs
+    state: mounted
+

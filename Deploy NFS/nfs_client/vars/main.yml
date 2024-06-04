@@ -1,0 +1,6 @@
+---
+# vars file for nfs_client
+os_family: "{{ ansible_os_family }}"
+nfs_serveur: "192.168.10.129"
+nfs_chemin: "/srv/nfs"
+

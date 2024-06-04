@@ -1,0 +1,53 @@
+---
+- name: deploy server
+  hosts: nfs-server
+  become: true
+  vars: 
+    allowed_network: "192.168.10.0/24"
+    os_family: "{{  ansible_os_family  }}"
+  
+  tasks: 
+    - name: Installer le paquet nfs-server
+      when: os_family == "RedHat"
+      ansible.builtin.yum:
+        name: nfs-utils
+        state: present 
+    notify: 
+      - start-service-nfs
+
+    - name: Installer le paquet nfs-server
+      when: os_family == "Debian"
+      ansible.builtin.apt:
+        name: nfs-kernel-server
+        state: present 
+        update_cache: yes
+      notify: 
+        - start_service_nfs
+
+    - name: Creation dossier partage
+      ansible.buitlin.file:
+        path: /srv/nfs
+        state: directory
+        owner: root
+        group: root
+        mode: '0775'
+    
+    - name: Modification du fichier /etc/exports
+      ansible.builtin.lineinfile:
+        path: /etc/exports
+        line: '/srv/nfs     {{ allowed_network }}(rw)'
+        regexp: '^/srv/nfs'
+      notify: 
+        - restart_service_nfs
+  
+  handlers: 
+    - name: start_service_nfs
+      ansible.builtin.service:
+        name: nfs-server
+        state: started
+        enabled: yes
+    
+    - name: restart_service_nfs
+      ansible.builtin.service:
+        name: nfs-server
+        state: restarted

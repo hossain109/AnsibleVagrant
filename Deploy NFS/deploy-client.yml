@@ -1,0 +1,21 @@
+---
+- name: Deploy nfs client
+  hosts: nfs-client
+  become: true
+
+  vars:
+    os_family: "{{ ansible_os_family }}"
+    nfs_serveur: "192.168.10.129"
+    nfs_chemin: "/srv/nfs"
+
+  tasks:
+    - name: INstallation des paquets
+      ansible.builtin.package:
+        name: "{{ 'nfs-utils' if os_family == 'RedHat' else 'nfs-common' }}"
+        state: present
+    - name: Modification fstab et mount du nfs
+      ansible.posix.mount:
+        src: "{{ nfs_serveur }}:{{ nfs_chemin }}"
+        path: /mnt
+        fstype: nfs
+        state: mounted

@@ -1,0 +1,8 @@
+---
+mysql_user: "admin"
+mysql_password: "Test_34535$"
+mysql_dbname: "blog"
+db_host: "192.168.10.130"
+webserver_host: "192.168.10.129"
+extra_packages_debian: ['php-curl', 'php-gd', 'php-mbstring'] 
+extra_packages_redhat: ['php-xml', 'php-gd', 'php-mbstring'] 

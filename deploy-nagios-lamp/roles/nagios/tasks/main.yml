@@ -1,0 +1,117 @@
+---
+- name: Ensure EPEL repository is enabled
+  yum:
+    name: epel-release
+    state: present
+
+- name: Install required packages
+  yum:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - httpd
+    - php
+    - gcc
+    - glibc
+    - glibc-common
+    - gd
+    - gd-devel
+    - make
+    - net-snmp
+    - unzip
+    - wget
+
+- name: Create Nagios user and group
+  user:
+    name: "{{ nagios_user }}"
+    group: "{{ nagios_group }}"
+    create_home: no
+    shell: /sbin/nologin
+
+- name: Create Nagios command group
+  group:
+    name: "{{ nagios_group }}"
+    state: present
+
+- name: Add Nagios user to the group
+  user:
+    name: "{{ nagios_user }}"
+    groups: "{{ nagios_group }}"
+    append: yes
+
+- name: Download Nagios
+  get_url:
+    url: "https://assets.nagios.com/downloads/nagioscore/releases/nagios-{{ nagios_version }}.tar.gz"
+    dest: "/tmp/nagios-{{ nagios_version }}.tar.gz"
+
+- name: Extract Nagios
+  unarchive:
+    src: "/tmp/nagios-{{ nagios_version }}.tar.gz"
+    dest: "/tmp"
+    remote_src: yes
+
+- name: Compile and install Nagios
+  command: "./configure --with-command-group={{ nagios_group }}"
+  args:
+    chdir: "/tmp/nagios-{{ nagios_version }}"
+  notify: Make Nagios
+
+- name: Make Nagios
+  make:
+    chdir: "/tmp/nagios-{{ nagios_version }}"
+
+- name: Make install Nagios
+  make:
+    target: install
+    chdir: "/tmp/nagios-{{ nagios_version }}"
+
+- name: Install Nagios init script
+  make:
+    target: install-init
+    chdir: "/tmp/nagios-{{ nagios_version }}"
+
+- name: Install Nagios command mode
+  make:
+    target: install-commandmode
+    chdir: "/tmp/nagios-{{ nagios_version }}"
+
+- name: Install Nagios config files
+  make:
+    target: install-config
+    chdir: "/tmp/nagios-{{ nagios_version }}"
+
+- name: Install Nagios web config files
+  make:
+    target: install-webconf
+    chdir: "/tmp/nagios-{{ nagios_version }}"
+
+- name: Create nagiosadmin user for web interface
+  command: htpasswd -bc /usr/local/nagios/etc/htpasswd.users nagiosadmin admin
+
+- name: Start and enable Apache
+  systemd:
+    name: httpd
+    state: started
+    enabled: yes
+
+- name: Download Nagios plugins
+  get_url:
+    url: "https://nagios-plugins.org/download/nagios-plugins-{{ plugins_version }}.tar.gz"
+    dest: "/tmp/nagios-plugins-{{ plugins_version }}.tar.gz"
+
+- name: Extract Nagios plugins
+  unarchive:
+    src: "/tmp/nagios-plugins-{{ plugins_version }}.tar.gz"
+    dest: "/tmp"
+    remote_src: yes
+
+- name: Compile and install Nagios plugins
+  shell: "./configure && make && make install"
+  args:
+    chdir: "/tmp/nagios-plugins-{{ plugins_version }}"
+
+- name: Enable and start Nagios service
+  systemd:
+    name: nagios
+    state: started
+    enabled: yes

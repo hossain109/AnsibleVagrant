@@ -1,0 +1,9 @@
+---
+- name: Install and configure Nagios on AlmaLinux
+  hosts: nagios
+  become: true
+  roles:
+    - nagios
+  
+  roles:
+    - client

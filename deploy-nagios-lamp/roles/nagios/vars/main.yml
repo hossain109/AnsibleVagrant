@@ -1,0 +1,6 @@
+---
+nagios_version: "4.4.6"
+nagios_user: "nagios"
+nagios_group: "nagios"
+plugins_version: "2.3.3"
+# vars file for nagios

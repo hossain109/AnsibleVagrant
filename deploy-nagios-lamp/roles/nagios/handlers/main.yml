@@ -1,0 +1,5 @@
+---
+- name: Make Nagios
+  make:
+    chdir: "/tmp/nagios-{{ nagios_version }}"
+# handlers file for nagios

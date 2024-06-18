@@ -1,0 +1,23 @@
+#installation les package
+---
+- name: Install packages php, vim, httpd
+  hosts: webservers
+  become: true
+  vars:
+    apache_pak: "{{ 'apache2' if ansible_facts['os_family']=='Debian' else 'httpd'}}"
+    packages: 
+      - "apache_pak"
+      - httpd
+      - vim
+      - php
+
+  tasks:
+    - name: Install required packages
+      ansible.builtin.package:
+        name: " {{ packages }}  "
+        state: present
+
+    - name: Start apache
+      ansible.builtin.service:
+        name: httpd
+        state: started
